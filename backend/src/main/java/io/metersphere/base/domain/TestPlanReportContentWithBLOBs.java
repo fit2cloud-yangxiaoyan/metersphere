@@ -47,5 +47,9 @@ public class TestPlanReportContentWithBLOBs extends TestPlanReportContent implem
 
     private String errorReportScenarios;
 
+    private int passCount;
+
+    private int executeCount;
+
     private static final long serialVersionUID = 1L;
 }

@@ -11,7 +11,7 @@ public class TestPlanReportContent implements Serializable {
 
     private Long startTime;
 
-    private Long caseCount;
+    private Long caseCount = 0L;
 
     private Long endTime;
 
