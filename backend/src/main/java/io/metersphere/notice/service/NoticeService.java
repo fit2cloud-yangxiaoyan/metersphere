@@ -121,10 +121,9 @@ public class NoticeService {
         }
     }
 
-
-    public List<MessageDetail> searchMessageByTypeAndWorkspaceId(String type, String workspaceId) {
+    public List<MessageDetail> searchMessageByTypeAndProjectId(String type, String projectId) {
         try {
-            return getMessageDetails(type, workspaceId);
+            return getMessageDetails(type, projectId);
         } catch (Exception e) {
             LogUtil.error(e.getMessage(), e);
             return new ArrayList<>();
@@ -133,14 +132,8 @@ public class NoticeService {
 
     public List<MessageDetail> searchMessageByTypeBySend(String type, String projectId) {
         try {
-            String workspaceId = "";
-            if (null == SessionUtils.getCurrentWorkspaceId()) {
-                Project project = projectMapper.selectByPrimaryKey(projectId);
-                workspaceId = project.getWorkspaceId();
-            } else {
-                workspaceId = SessionUtils.getCurrentWorkspaceId();
-            }
-            return getMessageDetails(type, workspaceId);
+            Project project = projectMapper.selectByPrimaryKey(projectId);
+            return getMessageDetails(type, project.getWorkspaceId());
         } catch (Exception e) {
             LogUtil.error(e.getMessage(), e);
             return new ArrayList<>();
