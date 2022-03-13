@@ -855,7 +855,6 @@ public class TestPlanReportService {
     }
 
     public TestPlanSimpleReportDTO getReport(String reportId) {
-        Log.info("---->>>>reportId" + reportId);
         TestPlanReportContentExample example = new TestPlanReportContentExample();
         example.createCriteria().andTestPlanReportIdEqualTo(reportId);
         List<TestPlanReportContentWithBLOBs> testPlanReportContents = testPlanReportContentMapper.selectByExampleWithBLOBs(example);
@@ -867,11 +866,8 @@ public class TestPlanReportService {
             return null;
         }
         if (this.isDynamicallyGenerateReports(testPlanReportContent)) {
-            Log.info("---->>>>generate report" + JSONObject.toJSONString(testPlanReportContent));
             testPlanReportContent = this.dynamicallyGenerateReports(testPlanReportContent);
-            Log.info("---->>>>generate report OVER" + JSONObject.toJSONString(testPlanReportContent));
         }
-        Log.info("---->>>>parse return object" + JSONObject.toJSONString(testPlanReportContent));
         TestPlanSimpleReportDTO testPlanReportDTO = new TestPlanSimpleReportDTO();
         BeanUtils.copyBean(testPlanReportDTO, testPlanReportContent);
         if (StringUtils.isNotBlank(testPlanReportContent.getFunctionResult())) {
@@ -919,6 +915,9 @@ public class TestPlanReportService {
         testPlanReportDTO.setId(reportId);
         TestPlanReport testPlanReport = testPlanReportMapper.selectByPrimaryKey(testPlanReportContent.getTestPlanReportId());
         testPlanReportDTO.setName(testPlanReport.getName());
+        if(testPlanReportDTO.getCaseCount() == null){
+            testPlanReportDTO.setCaseCount(0L);
+        }
         return testPlanReportDTO;
     }
 
